@@ -35,7 +35,7 @@ class DiscussionPreview extends Component {
           }
         </CardContent>
         <CardActions>
-          <Button color="primary">Присоединиться</Button>
+          <Button color="primary">Открыть</Button>
         </CardActions>
       </Card>
     );
