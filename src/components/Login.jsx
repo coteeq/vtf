@@ -152,7 +152,7 @@ class Login extends React.Component {
               <Grid item xs>
                 <FormControlLabel
                   control={<Checkbox value="true" color="primary" id="remember_me" onChange={this.handleChange} />}
-                  label="Remember me"
+                  label="Запомните меня"
                 />
               </Grid>
               <Grid item>
