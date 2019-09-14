@@ -4,6 +4,7 @@ import { Container, AppBar, Toolbar, Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import VTB from '../images/vtb.svg';
 import DiscussionPreview from './DiscussionPreview';
+import CreationModal from './CreationModal';
 
 const useStyles = theme => ({
   toolbar: {
@@ -18,6 +19,28 @@ const useStyles = theme => ({
 });
 
 class DiscussionsList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: false,
+    };
+
+    this.onButtonClick = this.onButtonClick.bind(this);
+    this.onModalClose = this.onModalClose.bind(this);
+  }
+
+  onButtonClick() {
+    this.setState({
+      modalOpen: true,
+    });
+  }
+
+  onModalClose() {
+    this.setState({
+      modalOpen: false,
+    });
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -68,10 +91,12 @@ class DiscussionsList extends Component {
             creationDate="29.01.2022"
             ongoing={ false }/>
           
-          <Fab color="secondary" className={ classes.fab }>
+          <Fab onClick={ this.onButtonClick } color="secondary" className={ classes.fab }>
             <AddIcon />
           </Fab>
         </Container>
+
+        <CreationModal modalOpen={this.state.modalOpen} onModalClose={this.onModalClose} />
       </>
     );
   }
