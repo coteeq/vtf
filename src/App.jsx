@@ -1,9 +1,8 @@
 import React from 'react';
-import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Login from './components/Login.jsx'
-import Discussion from './components/Discussion.jsx'
-import DiscussionsList from './components/DiscussionsList.jsx'
+import Login from './components/Login.jsx';
+import Discussion from './components/Discussion.jsx';
+import DiscussionsList from './components/DiscussionsList.jsx';
 
 function App() {
   return (
