@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Container, AppBar, Toolbar, Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import VTB from '../images/vtb.svg';
 import DiscussionPreview from './DiscussionPreview';
 import CreationModal from './CreationModal';
+import LogoBar from './LogoBar';
 
 const useStyles = theme => ({
-  toolbar: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
   fab: {
     position: 'fixed',
     right: theme.spacing(8),
@@ -46,11 +42,7 @@ class DiscussionsList extends Component {
 
     return (
       <>
-        <AppBar position="sticky">
-          <Toolbar className={ classes.toolbar }>
-            <img src={ VTB } alt="VTB" />
-          </Toolbar>
-        </AppBar>
+        <LogoBar />
 
         <Container maxWidth="md" className={ classes.container }>
           <DiscussionPreview
@@ -83,11 +75,11 @@ class DiscussionsList extends Component {
             title="Договор №1338"
             creationDate="29.01.2022"
             ongoing={ false }/>
-          
-          <Fab onClick={ this.onButtonClick } color="secondary" className={ classes.fab }>
-            <AddIcon />
-          </Fab>
         </Container>
+
+        <Fab onClick={ this.onButtonClick } color="secondary" className={ classes.fab }>
+          <AddIcon />
+        </Fab>
 
         <CreationModal modalOpen={this.state.modalOpen} onModalClose={this.onModalClose} />
       </>
