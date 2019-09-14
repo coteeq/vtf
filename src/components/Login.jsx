@@ -1,16 +1,22 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
+import { 
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Grid,
+  Typography,
+  Container,
+  Paper,
+  FormControl,
+  Input,
+  InputLabel,
+  FormHelperText,
+} from '@material-ui/core';
+import LockIcon from '@material-ui/icons/Lock';
 import { withStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
 
 import { Redirect } from 'react-router-dom';
 
@@ -51,8 +57,7 @@ class Login extends React.Component {
         email: '',
         password: '',
         logged_in: false,
-        email_error: '',
-        password_error: '',
+        login_error: false,
     }
     this.handleChange = this.handleChange.bind(this);
     this.login = this.login.bind(this);
@@ -81,7 +86,7 @@ class Login extends React.Component {
   }
 
   login() {
-    if (this.state.email === 'qwe') {
+    if (this.state.email === 'me@whimo.me') {
       sessionStorage.setItem('email', this.state.email)
       sessionStorage.setItem('logged_in', true);
       sessionStorage.setItem('remember_me', this.state.remember_me);
@@ -92,15 +97,10 @@ class Login extends React.Component {
         }
       }
 
-      this.setState({
-        logged_in: true,
-      });
+      this.setState({ logged_in: true });
     }
     else {
-      this.setState({
-        email_error: 'This is not email',
-        password_error: 'Invalid password',
-      });
+      this.setState({ login_error: true });
     }
   }
 
@@ -118,10 +118,10 @@ class Login extends React.Component {
         <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <LockIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Log in
+            Войти
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -134,16 +134,20 @@ class Login extends React.Component {
               autoComplete="email"
               autoFocus
             />
-            <TextField
-              id="password"
-              onChange={this.handleChange}
-              margin="normal"
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-            />
+            <FormControl className={classes.formControl} error={this.state.login_error} fullWidth>
+              <InputLabel htmlFor="component-error">Пароль</InputLabel>
+              <Input
+                id="password"
+                onChange={this.handleChange}
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                aria-describedby="component-error-text"
+              />
+              <FormHelperText id="component-error-text">{this.state.login_error ? 'Неправильный пароль' : ''}</FormHelperText>
+            </FormControl>
             <Grid container>
               <Grid item xs>
                 <FormControlLabel
@@ -159,7 +163,7 @@ class Login extends React.Component {
                   className={classes.submit}
                   onClick={this.login}
                 >
-                  Sign In
+                  Войти
                 </Button>
               </Grid>
             </Grid>
