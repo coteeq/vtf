@@ -14,17 +14,18 @@ import { withStyles } from '@material-ui/core/styles';
 import LogoBar from './LogoBar';
 
 const useStyles = theme => ({
+  topPart: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    marginBottom: theme.spacing(4),
+  },
   header: {
     marginBottom: theme.spacing(2),
   },
-  secondaries: {
-    marginBottom: theme.spacing(4),
+  pdfButton: {
+    alignSelf: 'start',
   },
-  icongrid: {
-    //display: 'flex',
-    //alignItems: 'flex-start',
-    //justifyContent: 'flex-end',
-  }
 });
 
 class Discussion extends Component {
@@ -47,11 +48,11 @@ class Discussion extends Component {
         <LogoBar />
 
         <Container>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={11}>
+          <div className={ classes.topPart }>
+            <div>
               <Typography className={ classes.header } variant="h2">{ this.state.title }</Typography>
               
-              <div className={ classes.secondaries }>
+              <div>
                 <Typography variant="h5" color="textSecondary">
                   Дата создания: { this.state.creationDate }
                 </Typography>
@@ -62,13 +63,12 @@ class Discussion extends Component {
                   { this.state.ongoing ? "Дискуссия в процессе" : "Дискуссия закончена" }
                 </Typography>
               </div>
-            </Grid>
-            <Grid item xs={12} sm={1} className={ classes.icongrid }>
-              <IconButton color="secondary">
-                <PictureAsPdf />
-              </IconButton>
-            </Grid>
-          </Grid>
+            </div>
+
+            <IconButton className={ classes.pdfButton } color="secondary">
+              <PictureAsPdf />
+            </IconButton>
+          </div>
 
           <Card>
             <CardHeader title="Статья 1.1." />
