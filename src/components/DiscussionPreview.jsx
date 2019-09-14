@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Paper, Typography } from '@material-ui/core';
+import { Typography, Card, CardHeader, CardContent, CardActions, Button } from '@material-ui/core';
 
 const useStyles = theme => ({
-  paper: {
-    padding: theme.spacing(3, 2),
+  card: {
     margin: theme.spacing(2),
   },
-  header: {
-    marginBottom: theme.spacing(2),
-  },
   description: {
-    marginTop: theme.spacing(3),
-  },
+    marginTop: theme.spacing(1),
+  }
 });
 
 class DiscussionPreview extends Component {
@@ -20,30 +16,31 @@ class DiscussionPreview extends Component {
     const { classes } = this.props;
 
     return (
-      <Paper className={ classes.paper }>
-        <Typography variant="h3" className={ classes.header }>
-          { this.props.title }
-        </Typography>
+      <Card className={ classes.card }>
+        <CardHeader
+          title={ this.props.title }
+          subheader={ `Дата создания: ${this.props.creationDate}` } />
 
-        <Typography variant="subtitle2">
-          Дата создания: { this.props.creationDate }
-        </Typography>
-        <Typography variant="subtitle2">
-          Субъект дискуссии: { this.props.subject }
-        </Typography>
-        <Typography variant="subtitle2">
-          Cтатус дискуссии: { this.props.ongoing ? "В процессе" : "Закончена" }
-        </Typography>
+        <CardContent>
+          <Typography variant="subtitle2">
+            Субъект дискуссии: { this.props.subject }
+          </Typography>
+          <Typography variant="subtitle2" color="secondary">
+            { this.props.ongoing ? "Дискуссия в процессе" : "Дискуссия закончена" }
+          </Typography>
 
-        {
-          this.props.description ? 
-          <Typography className={ classes.description }>
-            { this.props.description }
-          </Typography> :
-          <></>
-        }
-
-      </Paper>
+          {
+            this.props.description ? 
+            <Typography color="textSecondary" className={ classes.description }>
+              { this.props.description }
+            </Typography> :
+            <></>
+          }
+        </CardContent>
+        <CardActions>
+          <Button color="primary">Присоединиться</Button>
+        </CardActions>
+      </Card>
     );
   }
 }
