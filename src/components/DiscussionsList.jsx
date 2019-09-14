@@ -55,39 +55,32 @@ class DiscussionsList extends Component {
         <Container maxWidth="md" className={ classes.container }>
           <DiscussionPreview
             title="Договор №1337"
-            subject="Джотаро Куджо"
             creationDate="29.01.2020"
             ongoing={ true }
             description={"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis autem dolor amet possimus repudiandae aliquam beatae doloribus ut natus nemo vel neque deleniti, dolore rem, explicabo sequi accusantium. Minus, eum!"} />
           
           <DiscussionPreview
             title="Договор №1338"
-            subject="Джолин Куджо"
             creationDate="29.01.2022"
             ongoing={ false }/>
           <DiscussionPreview
             title="Договор №1338"
-            subject="Джолин Куджо"
             creationDate="29.01.2022"
             ongoing={ false }/>
           <DiscussionPreview
             title="Договор №1338"
-            subject="Джолин Куджо"
             creationDate="29.01.2022"
             ongoing={ false }/>
           <DiscussionPreview
             title="Договор №1338"
-            subject="Джолин Куджо"
             creationDate="29.01.2022"
             ongoing={ false }/>
           <DiscussionPreview
             title="Договор №1338"
-            subject="Джолин Куджо"
             creationDate="29.01.2022"
             ongoing={ false }/>
           <DiscussionPreview
             title="Договор №1338"
-            subject="Джолин Куджо"
             creationDate="29.01.2022"
             ongoing={ false }/>
           

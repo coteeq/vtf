@@ -22,9 +22,6 @@ class DiscussionPreview extends Component {
           subheader={ `Дата создания: ${this.props.creationDate}` } />
 
         <CardContent>
-          <Typography variant="subtitle2">
-            Субъект дискуссии: { this.props.subject }
-          </Typography>
           <Typography variant="subtitle2" color="secondary">
             { this.props.ongoing ? "Дискуссия в процессе" : "Дискуссия закончена" }
           </Typography>
