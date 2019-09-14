@@ -9,11 +9,11 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
-const useStyles = {
+const useStyles = theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
@@ -21,8 +21,9 @@ const useStyles = {
   },
   card: {
     minWidth: '50vw',
+    padding: theme.spacing(2),
   }
-};
+});
 
 class CreationModal extends Component {
   constructor(props) {
@@ -34,6 +35,11 @@ class CreationModal extends Component {
   }
 
   handleTextInput = name => ev => this.setState({ [name]: ev.target.value });
+
+  handleSubmit = ev => {
+    ev.preventDefault();
+    console.log("Submitted.");
+  }
 
   render() {
     const { classes } = this.props;
@@ -69,7 +75,7 @@ class CreationModal extends Component {
                 </CardContent>
 
                 <CardActions>
-                  <Button type="submit" color="primary">Создать</Button>
+                  <Button type="submit" color="primary" onClick={ this.handleSubmit }>Создать</Button>
                 </CardActions>
               </Card>
             </form>
@@ -79,4 +85,4 @@ class CreationModal extends Component {
   }
 }
 
-export default withStyles(useStyles)(CreationModal);
+export default withStyles(useStyles, { withTheme: true })(CreationModal);
