@@ -126,6 +126,18 @@ class Discussion extends Component {
       }
     `;
 
+    const querySections = gql`
+      query {
+        discussions(id: ${this.props.match.params.id}) {
+          sections {
+            id,
+            title,
+            description
+          }
+        }
+      }
+    `;
+
     return (
       <>
         <LogoBar />
@@ -151,6 +163,8 @@ class Discussion extends Component {
                         <CardHeader title={ q.title } />
 
                         <CardContent>
+                          <Typography>1. Российская Федерация - Россия есть демократическое федеративное правовое государство с республиканской формой правления.<br/><br/></Typography>
+
                           <Chat sectionId={ q.id } />
                         </CardContent>
 
