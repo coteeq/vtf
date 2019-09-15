@@ -140,7 +140,7 @@ class HeadingCard extends Component {
                 Дата создания: { new Date(creationDate).toLocaleString('ru-RU', { timeZone: 'UTC' }) }
               </Typography>
               <Typography variant="body2" component="p">
-                 Дискуссия { ongoing ? "в процессе" : "закончена" }
+                 Дискуссия { ongoing ? `в процессе до ${new Date(this.props.data.deadline).toLocaleString('ru-RU', { timeZone: 'UTC' })}` : "закончена" }
               </Typography>
               <Query query={gql`query{discussions(id:9){members{id}}}`}>{
                 ({ loading, error, data }) => {
