@@ -8,6 +8,7 @@ import LogoBar from './LogoBar';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Redirect } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = theme => ({
@@ -66,7 +67,7 @@ class DiscussionsList extends Component {
         <Container maxWidth="md" className={ classes.container }>
           <Query query={discussionsQuery}>
             {({ loading, error, data }) => {
-              if (loading) return <div>Fetching</div>
+              if (loading) return <CircularProgress />
               if (error) return <div>Error</div>
 
               console.log(data);

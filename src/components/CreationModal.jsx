@@ -15,6 +15,7 @@ import Fade from '@material-ui/core/Fade';
 
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -68,7 +69,7 @@ class CreationModal extends Component {
           deadline: this.state.date,
         }}
         >{({ loading, error, data }) => {
-              if (loading) return <div>Fetching</div>
+              if (loading) return <CircularProgress />
               if (error) return <div>Error</div>
 
               window.location.reload();

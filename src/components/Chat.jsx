@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Send } from '@material-ui/icons';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = theme => ({
   list: {
@@ -66,7 +67,7 @@ class Chat extends Component {
           query={ this.state.fetchQuery }>
             {
               ({loading, error, data}) => {
-                if (loading) return <div>Fetching</div>
+                if (loading) return <CircularProgress />
                 if (error) return <div>Error</div>
 
                 let messages = this.state.messages;
@@ -129,7 +130,7 @@ class Chat extends Component {
                       </IconButton>
                     );
 
-                    if (loading) return <div>Fetching</div>
+                    if (loading) return <CircularProgress />
                     return button;
                   }
                 }

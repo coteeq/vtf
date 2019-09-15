@@ -11,12 +11,15 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
+  Chip,
+  Button,
 } from '@material-ui/core';
 import { PictureAsPdf } from '@material-ui/icons';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import LogoBar from './LogoBar';
 import Chat from './Chat';
 import { Redirect } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -43,6 +46,54 @@ const useStyles = theme => ({
     display: 'inline-block',
   },
 });
+
+const Finished = function () {
+  const classes = makeStyles({
+    card: {
+      minWidth: 275,
+      marginTop: 20,
+      marginBottom: 20,
+    },
+    bullet: {
+      display: 'inline-block',
+      margin: '0 2px',
+      transform: 'scale(0.8)',
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    },
+  })();
+  return (
+    <Container maxWidth="md">
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography className={classes.title} color="textSecondary" gutterBottom>
+            Голосование звкончено
+          </Typography>
+          <Typography variant="h5" component="h2">
+            Документ принят
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary">
+            
+          </Typography>
+          <Typography variant="body2" component="p">
+            Секция 1: 12% против, 71% за, 17% воздержались<br />
+            Секция 1: 41% против, 56% за, 13% воздержались<br />
+            Секция 1: 36% против, 51% за, 13% воздержались<br />
+            Секция 1: 32% против, 45% за, 23% воздержались<br />
+            Секция 1: 11% против, 78% за, 21% воздержались<br />
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small">Вернуться</Button>
+        </CardActions>
+      </Card>
+    </Container>
+  );
+}
 
 class HeadingCard extends Component {
   render() {
@@ -72,6 +123,18 @@ class HeadingCard extends Component {
               <Typography variant="body2" component="p">
                  Дискуссия { ongoing ? "в процессе" : "закончена" }
               </Typography>
+              <Query query={gql`query{discussions(id:9){members{id}}}`}>{
+                ({ loading, error, data }) => {
+                  if (loading) return <CircularProgress />
+                  if (error) return <div>Error</div>  
+                  return <CircularProgress />
+                  return data.discussions.members.map(member => {
+                    return (
+                      <Chip label={member.name} />
+                    )
+                  })
+                }
+              }</Query>
             </CardContent>
           </div>
           <IconButton className={ classes.pdfButton } color="secondary">
@@ -145,7 +208,7 @@ class Discussion extends Component {
         <Query query={queryDiscussion} variables={{id: this.props.match.params.id}}>
         {
           ({ loading, error, data }) => {
-            if (loading) return <div>Fetching</div>
+            if (loading) return <CircularProgress />
             if (error) return <div>Error</div>
 
             console.log(data);
@@ -180,6 +243,7 @@ class Discussion extends Component {
                       </Card>
                     ))
                   }
+                <Finished />
                 </Container>
               </>
             )
