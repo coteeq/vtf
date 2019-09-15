@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Container, AppBar, Toolbar, Fab } from '@material-ui/core';
+import { Container, Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import DiscussionPreview from './DiscussionPreview';
 import CreationModal from './CreationModal';
