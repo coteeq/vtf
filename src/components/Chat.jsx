@@ -21,38 +21,47 @@ const useStyles = theme => ({
 });
 
 class Chat extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: [
+        { user: 'User1', message: 'Message Message Message...' },
+        { user: 'User1', message: 'Message Message Message...' },
+        { user: 'User1', message: 'Message Message Message...' },
+        { user: 'User1', message: 'Message Message Message...' },
+        { user: 'User1', message: 'Message Message Message...' },
+        { user: 'User1', message: 'Message Message Message...' },
+        { user: 'User2', message: 'Message...' },
+      ],
+      currentMessage: null,
+    };
+  }
+
+  handleInput = ev => this.setState({ currentMessage: ev.target.value });
+
   render() {
     const { classes } = this.props;
 
     return (
       <>
         <List className={ classes.list }>
-          <ListItem>
-            <ListItemText
-              primary="User1"
-              secondary="Message Message Message..." />
-          </ListItem>
-
-          <Divider variant="middle" component="li" />
-
-          <ListItem>
-            <ListItemText
-              primary="User1"
-              secondary="Message Message Message..." />
-          </ListItem>
-
-          <Divider variant="middle" component="li" />
-
-          <ListItem>
-            <ListItemText
-              primary="User1"
-              secondary="Message Message Message..." />
-          </ListItem>
+          {
+            this.state.messages.map(msg => (
+              <>
+                <Divider variant="middle" component="li" />
+                <ListItem>
+                  <ListItemText
+                    primary={ msg.user }
+                    secondary={ msg.message } />
+                </ListItem>
+              </>
+            ))
+          }
         </List>
       
         <Grid container>
           <Grid item xs={6}>
-            <TextField fullWidth/>
+            <TextField onChange={ this.handleInput } fullWidth/>
           </Grid>
           <Grid item xs={1}>
             <IconButton color="primary">
