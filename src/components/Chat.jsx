@@ -97,6 +97,30 @@ class Chat extends Component {
         { this.embedQuery() }
 
         <List className={ classes.list }>
+          <div key="k1">
+            <Divider variant="middle" component="li" />
+            <ListItem>
+              <ListItemText
+                primary="Игорь"
+                secondary="Считаю однозначно правда" />
+            </ListItem>
+          </div>
+          <div key="k1">
+            <Divider variant="middle" component="li" />
+            <ListItem>
+              <ListItemText
+                primary="Светлана"
+                secondary="Полностью поддерживаю" />
+            </ListItem>
+          </div>
+          <div key="k1">
+            <Divider variant="middle" component="li" />
+            <ListItem>
+              <ListItemText
+                primary="Игорь"
+                secondary="Спасибо" />
+            </ListItem>
+          </div>
           {
             this.state.messages.map((msg, i) => (
               <div key={i}>
