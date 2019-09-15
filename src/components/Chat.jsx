@@ -46,22 +46,22 @@ class Chat extends Component {
       <>
         <List className={ classes.list }>
           {
-            this.state.messages.map(msg => (
-              <>
+            this.state.messages.map((msg, i) => (
+              <div key={i}>
                 <Divider variant="middle" component="li" />
                 <ListItem>
                   <ListItemText
                     primary={ msg.user }
                     secondary={ msg.message } />
                 </ListItem>
-              </>
+              </div>
             ))
           }
         </List>
       
         <Grid container>
           <Grid item xs={6}>
-            <TextField onChange={ this.handleInput } fullWidth/>
+            <TextField placeholder="Ваше сообщение" onChange={ this.handleInput } fullWidth/>
           </Grid>
           <Grid item xs={1}>
             <IconButton color="primary">
