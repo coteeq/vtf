@@ -4,12 +4,15 @@ import {
   CardHeader,
   CardContent,
   CardActions,
-  Button,
   Typography,
   Container,
   IconButton,
+  FormControl,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
 } from '@material-ui/core';
-import { PictureAsPdf, Send } from '@material-ui/icons';
+import { PictureAsPdf } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import LogoBar from './LogoBar';
 import Chat from './Chat';
@@ -27,6 +30,9 @@ const useStyles = theme => ({
   pdfButton: {
     alignSelf: 'start',
   },
+  card: {
+    marginBottom: theme.spacing(2),
+  }
 });
 
 class Discussion extends Component {
@@ -36,10 +42,30 @@ class Discussion extends Component {
     this.state = {
       title: "Договор №1337",
       creationDate: "29.01.2020",
-      creator: "Лысенко Иван Егорович",
+      creator: "Аааа Ббббб Ввввв",
       ongoing: true,
+      questions: [
+        {
+          id: 1,
+          title: "Статья 1.1",
+        },
+        {
+          id: 2,
+          title: "Статья 2.1",
+        },
+      ],
+      answers: {
+        1: "none",
+        2: "none",
+      },
     };
   }
+
+  handleChange = id => ev => {
+    let newAnswers = { ...this.state.answers };
+    newAnswers[id] = ev.target.value;
+    this.setState({ answers: newAnswers });
+  };
 
   render() {
     const { classes } = this.props;
@@ -71,18 +97,27 @@ class Discussion extends Component {
             </IconButton>
           </div>
 
-          <Card>
-            <CardHeader title="Статья 1.1." />
+          {
+            this.state.questions.map((q, i) => (
+              <Card className={ classes.card } key={ q.id }>
+                <CardHeader title={ q.title } />
 
-            <CardContent>
-              <Chat />
-            </CardContent>
+                <CardContent>
+                  <Chat />
+                </CardContent>
 
-            <CardActions>
-              <Button color="primary">Да</Button>
-              <Button color="primary">Нет</Button>
-            </CardActions>
-          </Card>
+                <CardActions>
+                  <FormControl component="fieldset" className={classes.formControl}>
+                    <RadioGroup name="answer" value={ this.state.answers[q.id] } onChange={ this.handleChange(q.id) }>
+                      <FormControlLabel value="yes" control={<Radio />} label="Да" />
+                      <FormControlLabel value="no" control={<Radio />} label="Нет" />
+                      <FormControlLabel value="none" control={<Radio />} label="Воздерживаюсь" />
+                    </RadioGroup>
+                  </FormControl>
+                </CardActions>
+              </Card>
+            ))
+          }
         </Container>
       </>
     );
