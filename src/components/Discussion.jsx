@@ -14,6 +14,7 @@ import {
   Chip,
   Button,
   Modal,
+  Fab,
 } from '@material-ui/core';
 import { PictureAsPdf } from '@material-ui/icons';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -22,6 +23,7 @@ import Chat from './Chat';
 import StatsModal from './StatsModal';
 import { Redirect } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -56,7 +58,12 @@ const useStyles = theme => ({
   radio: {
     marginLeft: '5%',
     marginBottom: '2%',
-  }
+  },
+  fab: {
+    position: 'fixed',
+    right: theme.spacing(8),
+    bottom: theme.spacing(8),
+  },
 });
 
 const Finished = function () {
@@ -268,7 +275,11 @@ class Discussion extends Component {
                     ))
                   }
                 <Finished />
+
                 </Container>
+                <Fab onClick={ () => {} } color="secondary" className={ classes.fab }>
+                  <PersonAddIcon />
+                </Fab>
               </>
             )
           }
