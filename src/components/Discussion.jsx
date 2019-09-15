@@ -154,11 +154,11 @@ class Discussion extends Component {
       questions: [
         {
           id: 1,
-          title: "Часть 1.1",
+          title: "Секция 1.1",
         },
         {
           id: 2,
-          title: "Часть 2.1",
+          title: "Секция 2.1",
         },
       ],
       answers: {
