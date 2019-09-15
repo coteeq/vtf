@@ -13,6 +13,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -34,10 +37,12 @@ class CreationModal extends Component {
     this.state = {
       title: null,
       description: null,
+      date: new Date(),
     };
   }
 
   handleTextInput = name => ev => this.setState({ [name]: ev.target.value });
+  handleDateInput = date => this.setState({ date: date });
 
   handleSubmit = ev => {
     ev.preventDefault();
@@ -60,7 +65,7 @@ class CreationModal extends Component {
         variables={{
           title: this.state.title,
           description: this.state.description,
-          deadline: new Date('December 17, 1995 03:24:00')
+          deadline: this.state.date,
         }}
         >{({ loading, error, data }) => {
               if (loading) return <div>Fetching</div>
@@ -95,12 +100,24 @@ class CreationModal extends Component {
                         onChange={ this.handleTextInput("title") }
                         margin="dense"
                         required />
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          disableToolbar
+                          variant="inline"
+                          format="dd/MM/yyyy"
+                          margin="dense"
+                          label="Дедлайн"
+                          value={ this.state.date }
+                          onChange={ this.handleDateInput }
+                          required />
+                      </MuiPickersUtilsProvider>
                       <TextField
                         label="Описание"
                         onChange={ this.handleTextInput("description") }
                         margin="dense"
                         rows={ 6 }
-                        multiline />
+                        multiline
+                        required />
                     </FormControl>
                 </CardContent>
 
