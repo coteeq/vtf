@@ -7,6 +7,9 @@ import {
   TextField,
   IconButton,
   Grid,
+  ListItemAvatar,
+  Avatar,
+  Typography,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Send } from '@material-ui/icons';
@@ -20,6 +23,16 @@ const useStyles = theme => ({
     border: '1px solid gray',
     maxHeight: '300px',
     overflowY: 'scroll',
+  },
+  avatar: {
+    color: '#fff',
+    backgroundColor: '#FFA500',
+    width: 40,
+    height: 40,
+  },
+  inline: {
+    display: 'inline',
+    margin: '80',
   },
 });
 
@@ -97,30 +110,68 @@ class Chat extends Component {
         { this.embedQuery() }
 
         <List className={ classes.list }>
-          <div key="k1">
-            <Divider variant="middle" component="li" />
-            <ListItem>
-              <ListItemText
-                primary="Игорь"
-                secondary="Считаю однозначно правда" />
-            </ListItem>
-          </div>
-          <div key="k1">
-            <Divider variant="middle" component="li" />
-            <ListItem>
-              <ListItemText
-                primary="Светлана"
-                secondary="Полностью поддерживаю" />
-            </ListItem>
-          </div>
-          <div key="k1">
-            <Divider variant="middle" component="li" />
-            <ListItem>
-              <ListItemText
-                primary="Игорь"
-                secondary="Спасибо" />
-            </ListItem>
-          </div>
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar className={ classes.avatar }>И</Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary="Игорь"
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                  </Typography>
+                  {"Считаю однозначно правда"}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider variant="middle" component="li" />
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar className={ classes.avatar }>С</Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary="Светлана"
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                  </Typography>
+                  {"Полностью согласна"}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider variant="middle" component="li" />
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar className={ classes.avatar }>И</Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary="Игорь"
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                  </Typography>
+                  {"Спасибо"}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
           {
             this.state.messages.map((msg, i) => (
               <div key={i}>
