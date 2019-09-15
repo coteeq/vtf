@@ -71,7 +71,7 @@ const Finished = function () {
       <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.title} color="textSecondary" gutterBottom>
-            Голосование звкончено
+            Голосование закончено
           </Typography>
           <Typography variant="h5" component="h2">
             Документ принят
@@ -127,7 +127,7 @@ class HeadingCard extends Component {
                 ({ loading, error, data }) => {
                   if (loading) return <CircularProgress />
                   if (error) return <div>Error</div>  
-                  return <CircularProgress />
+                  return <div />
                   return data.discussions.members.map(member => {
                     return (
                       <Chip label={member.name} />
