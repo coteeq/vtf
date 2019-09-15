@@ -88,7 +88,7 @@ class Chat extends Component {
                   messages = data.sections[0].messages;
                 }
 
-                this.setState({ messages: messages, fetchQuery: null });
+                //this.setState({ messages: messages, fetchQuery: null });
                 return null;
               }
             }

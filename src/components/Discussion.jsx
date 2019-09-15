@@ -13,11 +13,13 @@ import {
   Radio,
   Chip,
   Button,
+  Modal,
 } from '@material-ui/core';
 import { PictureAsPdf } from '@material-ui/icons';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import LogoBar from './LogoBar';
 import Chat from './Chat';
+import StatsModal from './StatsModal';
 import { Redirect } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -45,6 +47,16 @@ const useStyles = theme => ({
     minWidth: '100%',
     display: 'inline-block',
   },
+  stats: {
+    marginLeft: 'auto',
+    marginTop: 'auto',
+    marginRight: '1%',
+    marginBottom: '1%',
+  },
+  radio: {
+    marginLeft: '5%',
+    marginBottom: '2%',
+  }
 });
 
 const Finished = function () {
@@ -151,14 +163,19 @@ class Discussion extends Component {
     super(props);
 
     this.state = {
+      modalOpen: false,
       questions: [
         {
           id: 1,
           title: "Секция 1.1",
+          modalOpen: false,
+          onModalClose: () => {this.state.questions[0].modalOpen = false;},
         },
         {
           id: 2,
           title: "Секция 2.1",
+          modalOpen: false,
+          onModalClose: () => {this.state.questions[1].modalOpen = false;},
         },
       ],
       answers: {
@@ -166,6 +183,10 @@ class Discussion extends Component {
         2: "none",
       },
     };
+  }
+
+  onModalClose = () => {
+    this.setState({ modalOpen: false });
   }
 
   handleChange = id => ev => {
@@ -217,7 +238,7 @@ class Discussion extends Component {
 
             return (
               <>
-                <Container>
+                <Container maxWidth="md">
                 <HeadingCard classes={classes} data={items[0]} />
                   {
                     this.state.questions.map((q, i) => (
@@ -232,12 +253,14 @@ class Discussion extends Component {
 
                         <CardActions>
                           <FormControl component="fieldset" className={classes.formControl}>
-                            <RadioGroup name="answer" value={ this.state.answers[q.id] } onChange={ this.handleChange(q.id) }>
+                            <RadioGroup className={ classes.radio } name="answer" value={ this.state.answers[q.id] } onChange={ this.handleChange(q.id) }>
                               <FormControlLabel value="yes" control={<Radio />} label="Да" />
                               <FormControlLabel value="no" control={<Radio />} label="Нет" />
                               <FormControlLabel value="none" control={<Radio />} label="Воздерживаюсь" />
                             </RadioGroup>
                           </FormControl>
+                          <Button variant="outlined" className={ classes.stats } onClick={() => {this.setState({ modalOpen: true })}}>статистика</Button>
+                          <StatsModal modalOpen={this.state.modalOpen} onModalClose={this.onModalClose} />
                         </CardActions>
                       </Card>
                     ))
