@@ -143,8 +143,8 @@ class Discussion extends Component {
 
             return (
               <>
-                <HeadingCard classes={classes} data={items[0]} />
                 <Container>
+                <HeadingCard classes={classes} data={items[0]} />
                   {
                     this.state.questions.map((q, i) => (
                       <Card className={ classes.card } key={ q.id }>
