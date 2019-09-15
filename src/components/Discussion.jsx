@@ -30,6 +30,7 @@ const useStyles = theme => ({
   },
   pdfButton: {
     alignSelf: 'start',
+    margin: theme.spacing(1),
   },
   card: {
     marginBottom: theme.spacing(2),
