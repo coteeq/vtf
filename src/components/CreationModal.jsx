@@ -41,14 +41,27 @@ class CreationModal extends Component {
 
   handleSubmit = ev => {
     ev.preventDefault();
-    this.setState({ post_query: gql`query discussion($title: String,$description: String){discussion(d_name:$title,d_description:$description,d_deadline:"20190914T193410Z")}`})
+    this.setState({
+      post_query: gql`
+        query discussion($title: String, $description: String, $deadline: DateTime) {
+          discussion(
+            d_name:$title,
+            d_description:$description,
+            d_deadline:$deadline
+          )
+        }`
+    });
   }
 
   embedQuery = () => {
     if (this.state.post_query)
       return (<Query
         query={this.state.post_query}
-        variables={{title: this.state.title, description: this.state.description, date: new Date('December 17, 1995 03:24:00')}}
+        variables={{
+          title: this.state.title,
+          description: this.state.description,
+          deadline: new Date('December 17, 1995 03:24:00')
+        }}
         >{({ loading, error, data }) => {
               if (loading) return <div>Fetching</div>
               if (error) return <div>Error</div>
