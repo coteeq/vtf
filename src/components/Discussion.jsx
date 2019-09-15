@@ -166,14 +166,16 @@ class Discussion extends Component {
       modalOpen: false,
       questions: [
         {
+          text: '1. Российская Федерация - Россия есть демократическое федеративное правовое государство с республиканской формой правления.',
           id: 1,
           title: "Секция 1.1",
           modalOpen: false,
           onModalClose: () => {this.state.questions[0].modalOpen = false;},
         },
         {
+          text: '2. Наименования Российская Федерация и Россия равнозначны.',
           id: 2,
-          title: "Секция 2.1",
+          title: "Секция 1.2",
           modalOpen: false,
           onModalClose: () => {this.state.questions[1].modalOpen = false;},
         },
@@ -246,7 +248,7 @@ class Discussion extends Component {
                         <CardHeader title={ q.title } />
 
                         <CardContent>
-                          <Typography>1. Российская Федерация - Россия есть демократическое федеративное правовое государство с республиканской формой правления.<br/><br/></Typography>
+                          <Typography>{q.text}<br/><br/></Typography>
 
                           <Chat sectionId={ q.id } />
                         </CardContent>
