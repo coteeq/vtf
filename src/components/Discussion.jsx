@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import {
   Card,
   CardHeader,
+  CardContent,
   CardActions,
   Button,
   Typography,
   Container,
   IconButton,
-  Grid,
 } from '@material-ui/core';
-import { PictureAsPdf } from '@material-ui/icons';
+import { PictureAsPdf, Send } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import LogoBar from './LogoBar';
+import Chat from './Chat';
 
 const useStyles = theme => ({
   topPart: {
@@ -72,6 +73,11 @@ class Discussion extends Component {
 
           <Card>
             <CardHeader title="Статья 1.1." />
+
+            <CardContent>
+              <Chat />
+            </CardContent>
+
             <CardActions>
               <Button color="primary">Да</Button>
               <Button color="primary">Нет</Button>
