@@ -11,7 +11,6 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
-  Button,
 } from '@material-ui/core';
 import { PictureAsPdf } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
@@ -113,7 +112,7 @@ class Discussion extends Component {
                 <CardHeader title={ q.title } />
 
                 <CardContent>
-                  <Chat />
+                  <Chat sectionId={ q.id } />
                 </CardContent>
 
                 <CardActions>
