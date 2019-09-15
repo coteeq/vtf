@@ -76,6 +76,7 @@ class DiscussionsList extends Component {
                     ongoing={ new Date() < new Date(item.deadline) }
                     description={item.description}
                     key={item.id}
+                    aidi={item.id}
                     />)}
                 </div>
               )

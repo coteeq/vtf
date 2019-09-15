@@ -35,7 +35,7 @@ class DiscussionPreview extends Component {
           }
         </CardContent>
         <CardActions>
-          <Button color="primary">Открыть</Button>
+          <a href={`/discussion/${this.props.aidi}`}><Button color="primary">Открыть</Button></a>
         </CardActions>
       </Card>
     );
