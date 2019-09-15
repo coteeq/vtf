@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Send } from '@material-ui/icons';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const useStyles = theme => ({
@@ -23,7 +23,7 @@ const useStyles = theme => ({
 });
 
 class Chat extends Component {
-  queryString = gql`
+  fetchQuery = gql`
     query {
       sections(id:${this.props.sectionId}) {
         messages {
@@ -36,36 +36,50 @@ class Chat extends Component {
     }
   `;
 
+  postQuery = gql`
+    mutation Message($content:String!, $user_id:String!) {
+      message(content:$content,user_id:$user_id,section_id:"${this.props.sectionId}") {
+        message {
+          id
+        }
+      }
+    }
+  `;
+
   constructor(props) {
     super(props);
     this.state = {
       messages: [],
-      currentMessage: null,
-      postQuery: this.queryString,
+      currentMessage: "",
+      fetchQuery: this.fetchQuery,
     };
 
-    setInterval(() => this.setState({ postQuery: this.queryString }), 5000);
+    setInterval(() => this.setState({ fetchQuery: this.fetchQuery }), 5000);
   }
 
   embedQuery = () => {
-    if (this.state.postQuery) {
+    if (this.state.fetchQuery) {
+      console.log("Fetching....");
+      
       return (
         <Query
-          query={ this.state.postQuery }>
+          query={ this.state.fetchQuery }>
             {
               ({loading, error, data}) => {
                 if (loading) return <div>Fetching</div>
                 if (error) return <div>Error</div>
 
+                let messages = this.state.messages;
                 if (data.sections.length > 0) {
-                  this.setState({ messages: data.sections[0].messages, postQuery: null });
+                  messages = data.sections[0].messages;
                 }
 
+                this.setState({ messages: messages, fetchQuery: null });
                 return null;
               }
             }
         </Query>
-      )
+      );
     } else {
       return null;
     }
@@ -75,6 +89,7 @@ class Chat extends Component {
 
   render() {
     const { classes } = this.props;
+    console.log(this.state);
 
     return (
       <>
@@ -100,9 +115,25 @@ class Chat extends Component {
             <TextField placeholder="Ваше сообщение" onChange={ this.handleInput } fullWidth/>
           </Grid>
           <Grid item xs={1}>
-            <IconButton color="primary">
-              <Send />
-            </IconButton>
+            <Mutation
+              mutation={ this.postQuery }
+              variables={{
+                content: this.state.currentMessage,
+                user_id: sessionStorage.getItem('user_id'),
+              }}>
+                {
+                  (mutationHook, {loading, data}) => {
+                    const button = (
+                      <IconButton onClick={ mutationHook } color="primary">
+                        <Send />
+                      </IconButton>
+                    );
+
+                    if (loading) return <div>Fetching</div>
+                    return button;
+                  }
+                }
+            </Mutation>
           </Grid>
         </Grid>
       </>

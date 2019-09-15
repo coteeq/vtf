@@ -18,6 +18,9 @@ import {
 import LockIcon from '@material-ui/icons/Lock';
 import { withStyles } from '@material-ui/core/styles';
 
+import { Query, Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+
 import { Redirect } from 'react-router-dom';
 
 const styles = theme => ({
@@ -60,7 +63,6 @@ class Login extends React.Component {
         login_error: false,
     }
     this.handleChange = this.handleChange.bind(this);
-    this.login = this.login.bind(this);
   }
 
   handleChange(event) {
@@ -85,29 +87,11 @@ class Login extends React.Component {
     }
   }
 
-  login() {
-    if (this.state.email === 'me@whimo.me') {
-      sessionStorage.setItem('email', this.state.email)
-      sessionStorage.setItem('logged_in', true);
-      sessionStorage.setItem('remember_me', this.state.remember_me);
-
-      if (this.state.remember_me) {
-        for (const key of ['logged_in', 'email', 'remember_me']) {
-          localStorage.setItem(key, sessionStorage.getItem(key));
-        }
-      }
-
-      this.setState({ logged_in: true });
-    }
-    else {
-      this.setState({ login_error: true });
-    }
-  }
-
   checkLoggedIn() {
     if (this.state.logged_in)
       return <Redirect to='/' />
   }
+
 
   render() {
     const { classes } = this.props;
@@ -127,7 +111,6 @@ class Login extends React.Component {
             <TextField
               id="email"
               onChange={this.handleChange}
-              margin="normal"
               fullWidth
               label="Email"
               name="email"
@@ -139,7 +122,6 @@ class Login extends React.Component {
               <Input
                 id="password"
                 onChange={this.handleChange}
-                margin="normal"
                 fullWidth
                 name="password"
                 label="Password"
@@ -156,15 +138,36 @@ class Login extends React.Component {
                 />
               </Grid>
               <Grid item>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="secondary"
-                  className={classes.submit}
-                  onClick={this.login}
-                >
-                  Войти
-                </Button>
+              <Mutation mutation={gql`
+                                  mutation {
+                                    login(
+                                      email:"${this.state.email}",
+                                      password:"${this.state.password}"
+                                    ) {
+                                      user {
+                                        id
+                                      }
+                                    }
+                                  }
+                                `}>
+                {(postMutation, { loading, data }) => {
+                  if (data) {
+                    console.log(data);
+                    sessionStorage.setItem('user_id', data.login.user.id);
+                    return <Redirect to="/" />
+                  }
+                  return (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    className={classes.submit}
+                    onClick={postMutation}
+                  >
+                    Войти
+                  </Button>);
+                }}
+                </Mutation>
               </Grid>
             </Grid>
           </form>

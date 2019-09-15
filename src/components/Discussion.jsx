@@ -17,6 +17,9 @@ import { withStyles } from '@material-ui/core/styles';
 import LogoBar from './LogoBar';
 import Chat from './Chat';
 
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+
 const useStyles = theme => ({
   topPart: {
     display: 'flex',
@@ -40,15 +43,47 @@ const useStyles = theme => ({
   },
 });
 
+class HeadingCard extends Component {
+  render() {
+    const { classes } = this.props;
+    const creator = this.props.data.creator;
+    const title = this.props.data.name;
+    const creationDate = this.props.data.creation_date;
+    const ongoing = new Date() < new Date(this.props.data.deadline);
+
+    return (
+      <Card className={ classes.titlecard }>
+        <div className={ classes.topPart }>
+          <div>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                { title }
+              </Typography>
+              <Typography className={classes.title} color="textSecondary" gutterBottom>
+                Автор дискуссии: { creator }
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+                Дата создания: { new Date(creationDate).toLocaleString('ru-RU', { timeZone: 'UTC' }) }
+              </Typography>
+              <Typography variant="body2" component="p">
+                 Дискуссия { ongoing ? "в процессе" : "закончена" }
+              </Typography>
+            </CardContent>
+          </div>
+          <IconButton className={ classes.pdfButton } color="secondary">
+            <PictureAsPdf />
+          </IconButton>
+        </div>
+      </Card>
+    );
+  }
+}
+
 class Discussion extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      title: "Договор №1337",
-      creationDate: "29.01.2020",
-      creator: "Аааа Ббббб Ввввв",
-      ongoing: true,
       questions: [
         {
           id: 1,
@@ -67,6 +102,7 @@ class Discussion extends Component {
   }
 
   handleChange = id => ev => {
+    alert('need query');
     let newAnswers = { ...this.state.answers };
     newAnswers[id] = ev.target.value;
     this.setState({ answers: newAnswers });
@@ -74,60 +110,62 @@ class Discussion extends Component {
 
   render() {
     const { classes } = this.props;
+    const queryDiscussion = gql`
+      query {
+        discussions(id: ${this.props.match.params.id}) {
+          name,
+          description,
+          creation_date,
+          deadline,
+          creator_id
+        }
+      }
+    `;
 
     return (
       <>
         <LogoBar />
 
-        <Container>
-          <Card className={ classes.titlecard }>
-            <div className={ classes.topPart }>
-              <div>
-                <CardContent>
-                  <Typography variant="h5" component="h2">
-                    { this.state.title }
-                  </Typography>
-                  <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Автор дискуссии: { this.state.creator }
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                    Дата создания: { this.state.creationDate }
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                     Дискуссия { this.state.ongoing ? "в процессе" : "закончена" }
-                  </Typography>
-                </CardContent>
-              </div>
-              <IconButton className={ classes.pdfButton } color="secondary">
-                <PictureAsPdf />
-              </IconButton>
-            </div>
-          </Card>
-          <div className={ classes.topPart }>
-          </div>
+        <Query query={queryDiscussion} variables={{id: this.props.match.params.id}}>
+        {
+          ({ loading, error, data }) => {
+            if (loading) return <div>Fetching</div>
+            if (error) return <div>Error</div>
 
-          {
-            this.state.questions.map((q, i) => (
-              <Card className={ classes.card } key={ q.id }>
-                <CardHeader title={ q.title } />
+            console.log(data);
+            const items = data.discussions;
 
-                <CardContent>
-                  <Chat sectionId={ q.id } />
-                </CardContent>
+            return (
+              <>
+                <HeadingCard classes={classes} data={items[0]} />
+                <Container>
+                  {
+                    this.state.questions.map((q, i) => (
+                      <Card className={ classes.card } key={ q.id }>
+                        <CardHeader title={ q.title } />
 
-                <CardActions>
-                  <FormControl component="fieldset" className={classes.formControl}>
-                    <RadioGroup name="answer" value={ this.state.answers[q.id] } onChange={ this.handleChange(q.id) }>
-                      <FormControlLabel value="yes" control={<Radio />} label="Да" />
-                      <FormControlLabel value="no" control={<Radio />} label="Нет" />
-                      <FormControlLabel value="none" control={<Radio />} label="Воздерживаюсь" />
-                    </RadioGroup>
-                  </FormControl>
-                </CardActions>
-              </Card>
-            ))
+                        <CardContent>
+                          <Chat sectionId={ q.id } />
+                        </CardContent>
+
+                        <CardActions>
+                          <FormControl component="fieldset" className={classes.formControl}>
+                            <RadioGroup name="answer" value={ this.state.answers[q.id] } onChange={ this.handleChange(q.id) }>
+                              <FormControlLabel value="yes" control={<Radio />} label="Да" />
+                              <FormControlLabel value="no" control={<Radio />} label="Нет" />
+                              <FormControlLabel value="none" control={<Radio />} label="Воздерживаюсь" />
+                            </RadioGroup>
+                          </FormControl>
+                        </CardActions>
+                      </Card>
+                    ))
+                  }
+                </Container>
+              </>
+            )
           }
-        </Container>
+        }
+        </Query>
       </>
     );
   }
