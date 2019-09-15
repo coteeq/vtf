@@ -5,6 +5,9 @@ import AddIcon from '@material-ui/icons/Add';
 import DiscussionPreview from './DiscussionPreview';
 import CreationModal from './CreationModal';
 import LogoBar from './LogoBar';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+
 
 const useStyles = theme => ({
   fab: {
@@ -40,6 +43,17 @@ class DiscussionsList extends Component {
   render() {
     const { classes } = this.props;
 
+    const discussionsQuery = gql`
+      query {
+        discussions {
+          id,
+          name,
+          description,
+          deadline
+        }
+      }
+    `
+
     return (
       <>
         <LogoBar />
@@ -50,31 +64,27 @@ class DiscussionsList extends Component {
             creationDate="29.01.2020"
             ongoing={ true }
             description={"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis autem dolor amet possimus repudiandae aliquam beatae doloribus ut natus nemo vel neque deleniti, dolore rem, explicabo sequi accusantium. Minus, eum!"} />
-          
-          <DiscussionPreview
-            title="Договор №1338"
-            creationDate="29.01.2022"
-            ongoing={ false }/>
-          <DiscussionPreview
-            title="Договор №1338"
-            creationDate="29.01.2022"
-            ongoing={ false }/>
-          <DiscussionPreview
-            title="Договор №1338"
-            creationDate="29.01.2022"
-            ongoing={ false }/>
-          <DiscussionPreview
-            title="Договор №1338"
-            creationDate="29.01.2022"
-            ongoing={ false }/>
-          <DiscussionPreview
-            title="Договор №1338"
-            creationDate="29.01.2022"
-            ongoing={ false }/>
-          <DiscussionPreview
-            title="Договор №1338"
-            creationDate="29.01.2022"
-            ongoing={ false }/>
+          <Query query={discussionsQuery}>
+            {({ loading, error, data }) => {
+              if (loading) return <div>Fetching</div>
+              if (error) return <div>Error</div>
+
+              console.log(data);
+              const items = data.discussions;
+
+              return (
+                <div>
+                  {items.map(item => <DiscussionPreview
+                    title={item.name}
+                    creationDate={item.deadline}
+                    ongoing={ false }
+                    description={item.description}
+                    key={item.id}
+                    />)}
+                </div>
+              )
+            }}
+          </Query>
         </Container>
 
         <Fab onClick={ this.onButtonClick } color="secondary" className={ classes.fab }>
