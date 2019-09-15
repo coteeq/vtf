@@ -7,6 +7,7 @@ import CreationModal from './CreationModal';
 import LogoBar from './LogoBar';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Redirect } from 'react-router-dom';
 
 
 const useStyles = theme => ({
@@ -41,6 +42,9 @@ class DiscussionsList extends Component {
   }
 
   render() {
+    if (!sessionStorage.getItem('user_id'))
+      return (<Redirect to='/login' />);
+
     const { classes } = this.props;
 
     const discussionsQuery = gql`

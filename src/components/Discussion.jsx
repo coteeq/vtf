@@ -17,6 +17,7 @@ import { PictureAsPdf } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import LogoBar from './LogoBar';
 import Chat from './Chat';
+import { Redirect } from 'react-router-dom';
 
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -46,6 +47,9 @@ const useStyles = theme => ({
 
 class HeadingCard extends Component {
   render() {
+    if (!sessionStorage.getItem('user_id'))
+      return (<Redirect to='/login' />);
+
     const { classes } = this.props;
     const creator = this.props.data.creator;
     const title = this.props.data.name;
@@ -135,6 +139,8 @@ class Discussion extends Component {
 
             console.log(data);
             const items = data.discussions;
+            if (!items[0])
+              return (<Redirect to='/' />);
 
             return (
               <>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Login from './components/Login.jsx';
 import Discussion from './components/Discussion.jsx';
 import DiscussionsList from './components/DiscussionsList.jsx';
@@ -32,6 +32,13 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+function Logout () {
+  sessionStorage.removeItem('user_id');
+  return (
+    <Redirect to="/" />
+  );
+}
+
 
 function App() {
   return (
@@ -40,7 +47,8 @@ function App() {
         <Switch>
           <Route exact path='/login' component={Login} />
           <Route exact path='/discussion/:id' component={Discussion} />
-          <Route path='/' component={DiscussionsList} />
+          <Route exact path='/' component={DiscussionsList} />
+          <Route path='/logout' component={Logout} />
         </Switch>
       </BrowserRouter>
     </ApolloProvider>
