@@ -49,7 +49,7 @@ class DiscussionsList extends Component {
           id,
           name,
           description,
-          deadline
+          creation_date
         }
       }
     `
@@ -71,7 +71,7 @@ class DiscussionsList extends Component {
                 <div>
                   {items.map(item => <DiscussionPreview
                     title={item.name}
-                    creationDate={item.deadline}
+                    creationDate={new Date(item.creation_time).toLocaleString('ru-RU', { timeZone: 'UTC' })}
                     ongoing={ false }
                     description={item.description}
                     key={item.id}
