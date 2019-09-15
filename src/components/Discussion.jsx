@@ -11,6 +11,7 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
+  Button,
 } from '@material-ui/core';
 import { PictureAsPdf } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
@@ -32,7 +33,11 @@ const useStyles = theme => ({
   },
   card: {
     marginBottom: theme.spacing(2),
-  }
+  },
+  titlecard: {
+    minWidth: '100%',
+    display: 'inline-block',
+  },
 });
 
 class Discussion extends Component {
@@ -75,26 +80,30 @@ class Discussion extends Component {
         <LogoBar />
 
         <Container>
-          <div className={ classes.topPart }>
-            <div>
-              <Typography className={ classes.header } variant="h2">{ this.state.title }</Typography>
-              
+          <Card className={ classes.titlecard }>
+            <div className={ classes.topPart }>
               <div>
-                <Typography variant="h5" color="textSecondary">
-                  Дата создания: { this.state.creationDate }
-                </Typography>
-                <Typography variant="h5" color="textSecondary">
-                  Автор дискуссии: { this.state.creator }
-                </Typography>
-                <Typography variant="h5" color="textSecondary">
-                  { this.state.ongoing ? "Дискуссия в процессе" : "Дискуссия закончена" }
-                </Typography>
+                <CardContent>
+                  <Typography variant="h5" component="h2">
+                    { this.state.title }
+                  </Typography>
+                  <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    Автор дискуссии: { this.state.creator }
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    Дата создания: { this.state.creationDate }
+                  </Typography>
+                  <Typography variant="body2" component="p">
+                     Дискуссия { this.state.ongoing ? "в процессе" : "закончена" }
+                  </Typography>
+                </CardContent>
               </div>
+              <IconButton className={ classes.pdfButton } color="secondary">
+                <PictureAsPdf />
+              </IconButton>
             </div>
-
-            <IconButton className={ classes.pdfButton } color="secondary">
-              <PictureAsPdf />
-            </IconButton>
+          </Card>
+          <div className={ classes.topPart }>
           </div>
 
           {
