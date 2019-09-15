@@ -154,11 +154,11 @@ class Discussion extends Component {
       questions: [
         {
           id: 1,
-          title: "Статья 1.1",
+          title: "Часть 1.1",
         },
         {
           id: 2,
-          title: "Статья 2.1",
+          title: "Часть 2.1",
         },
       ],
       answers: {
@@ -169,7 +169,6 @@ class Discussion extends Component {
   }
 
   handleChange = id => ev => {
-    alert('need query');
     let newAnswers = { ...this.state.answers };
     newAnswers[id] = ev.target.value;
     this.setState({ answers: newAnswers });
